@@ -17,14 +17,6 @@ Add files to .gitignore
 git add .
 git status
 git commit -m "first commit"
-git remote add origin https://github.com/DenysLaptiev/user-service.git
+git remote add origin https://github.com/DenysLaptiev/lambda.git
 git push -u origin main
 
-
-9. Add a collaborator (DenisLaptev) to github_codebuild_ebs in remote GitHub repository (of DenysLaptiev)
-10. Add buildspec.yml
-11. In cmd
-    git add buildspec.yml
-    git status
-    git commit -m "added buildspec.yml"
-    git push
