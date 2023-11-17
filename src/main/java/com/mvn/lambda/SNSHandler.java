@@ -19,9 +19,11 @@ public class SNSHandler implements RequestHandler<SNSEvent, Object> {
 
 
     private static final String EMAIL_SUBJECT = "Message From AWS Lambda" ;
-    private static final String SUBJECT_SNS_FROM_IMAGE_SERVICE = "SNS from image-service" ;
 
-    private static Logger logger = Logger.getLogger(SNSHandler.class.getName());
+    private static final String SNS_SUBJECT_UPLOAD_CONFIRMATION = "SNS from image-service. File Uploaded" ;
+    private static final String SNS_SUBJECT_DELETE_CONFIRMATION = "SNS from image-service. File Deleted" ;
+
+    private static final Logger logger = Logger.getLogger(SNSHandler.class.getName());
 
     public Object handleRequest(SNSEvent request, Context context) {
         //String email = request.getRecords().get(0).getSNS().getMessage();
@@ -41,10 +43,28 @@ public class SNSHandler implements RequestHandler<SNSEvent, Object> {
                 + "--> request.getRecords().get(0).getSNS().getSubject()=" + request.getRecords().get(0).getSNS().getSubject()
                 + "--> request.getRecords().get(0).getSNS().getMessage()=" + request.getRecords().get(0).getSNS().getMessage();
 
-        if(SUBJECT_SNS_FROM_IMAGE_SERVICE.equals(request.getRecords().get(0).getSNS().getSubject())){
-            text=text+"\n"+" SNS WAS RECEIVED FROM IMAGE-SERVICE!!!";
-        }
 
+        String subject = request.getRecords().get(0).getSNS().getSubject();
+
+//        switch (subject) {
+//            case SNS_SUBJECT_UPLOAD_CONFIRMATION: {
+//                text = text + "\n" + " FILE UPLOADED !!!" ;
+//            }
+//            case SNS_SUBJECT_DELETE_CONFIRMATION: {
+//                text = text + "\n" + " FILE DELETED !!!" ;
+//            }
+//            default: {
+//                throw new IllegalArgumentException("Unsupported subject of SNS notification!");
+//            }
+//        }
+
+        if (SNS_SUBJECT_UPLOAD_CONFIRMATION.equals(subject)) {
+            text = text + "\n" + " FILE UPLOADED !!!" ;
+        } else if (SNS_SUBJECT_DELETE_CONFIRMATION.equals(subject)) {
+            text = text + "\n" + " FILE DELETED !!!" ;
+        } else {
+            throw new IllegalArgumentException("Unsupported subject of SNS notification!");
+        }
         sendEmail(email, EMAIL_SUBJECT, text);
         return null;
     }

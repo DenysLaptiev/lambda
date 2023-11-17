@@ -5,7 +5,7 @@
 3. mvn clean package shade:shade
 
 
-7. Create new GitHub repository user-service
+7. Create new GitHub repository lambda
 
 8. In cmd
    git init
